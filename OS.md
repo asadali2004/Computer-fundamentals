@@ -18,7 +18,6 @@ The sources categorize operating systems based on how they manage tasks and user
 - **Characteristics**: Compared to batch OS, it offers more efficiency and more throughput. It also helps prevent starvation. However, similar to batch systems, the traditional multiprogramming OS as described in the source typically implies no preemption, meaning a program would run until it voluntarily yields the CPU (e.g., for I/O).
 
 #### 3. Preemptive vs. Non-Preemptive Operating Systems
-> *Elaboration from our conversation*
 
 - The concepts of **"preemption"** and **"no-preemption"** are crucial here.
 - **Preemption** is the OS's ability to interrupt a running process and assign the CPU to another, even if the current process hasn't finished. This ensures fair CPU time allocation and responsiveness, crucial for interactive systems.
@@ -69,7 +68,6 @@ The **mode bit** in an operating system is a fundamental mechanism that plays a 
 By controlling the level of access that processes have to system resources, the mode bit contributes to the overall stability, security, and reliability of the operating system. For instance, when the mode bit is set to **"user mode,"** a program has limited access to system resources, preventing it from directly harming the system or other programs. When it's in **"kernel mode,"** the OS kernel has full access to hardware.
 
 ### Types of Kernels
-> *Information from outside the sources*
 
 While the provided sources define the kernel and the mode bit, they do not detail the different architectural types of kernels. Understanding these types is important because they represent different design philosophies for an OS's core:
 #### 1. Monolithic Kernel
@@ -99,7 +97,6 @@ While the provided sources define the kernel and the mode bit, they do not detai
 **System calls** are crucial functions or routines provided by the operating system that serve as an interface, allowing user-level processes or programs to request services or functionality directly from the operating system kernel. They enable applications to perform operations that require higher privileges or direct access to system resources.
 
 ### Why System Calls are Needed
-> *Information from outside the sources*
 
 User programs run in a restricted **"user mode"** (as determined by the mode bit) to prevent accidental or malicious interference with the system's core functions or other programs. System calls bridge this gap by providing a controlled and secure way for user programs to access privileged operations:
 
@@ -152,7 +149,6 @@ During its lifecycle, a process goes through various states. The sources explici
 - **Ready**: A process in the "Ready" state is prepared to execute but is currently waiting for the CPU to be assigned. In a multitasking environment, multiple processes can reside in this state, and the operating system's scheduler is responsible for determining which ready process will get the CPU next.
 
 ### Other Important Process States
-> *Information from outside the sources*
 
 The provided text only explicitly details "New" and "Ready" states, but a complete understanding of process lifecycle usually includes other states:
 
