@@ -1,6 +1,6 @@
 # Computer Networks: 3.1 Networking Basics
 
-Computer networking forms the backbone of modern computing, enabling devices to communicate and share re### 2. Star Topology
+Computer networking forms the backbone of modern computing, enabling devices to communicate and share resources. To begin, let's explore some fundamental concepts, network models, topologies, and common network devices.
 - **Description**: Each device is **connected to a central hub or switch**. All communication flows through this central point.
 - **Advantages**: Centralized control, easy to add or remove devices, **fault isolation** (failure in one connection doesn't affect others).
 - **Disadvantages**: Dependency on the central hub; if it fails, the entire network may be affected.ces. To begin, let's explore some fundamental concepts, network models, topologies, and common network devices.
