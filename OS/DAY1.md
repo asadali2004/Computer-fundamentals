@@ -164,7 +164,6 @@ The provided text only explicitly details "New" and "Ready" states, but a comple
 - **Terminated (or Exit)**: A process reaches this final state after it has completed its execution or has been aborted by the operating system (e.g., due to a critical error, external termination signal). At this point, the operating system will deallocate the resources that were assigned to the process.
 
 ### Process Control Block (PCB)
-> *Information from outside the sources, expanding on source*
 
 Although not fully detailed in section 1.4, the "Placement Preparation Booklet" mentions that CPU scheduling information is part of a process's details and that a PCB's purpose is to store "information about a process".
 #### Definition
