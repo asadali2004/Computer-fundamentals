@@ -148,7 +148,7 @@ During its lifecycle, a process goes through various states. The sources explici
 - **New**: In this initial state, the process is being created. The operating system allocates necessary resources, initializes data structures, and prepares the process for execution. Once this setup is complete, the process moves to the "Ready" state.
 - **Ready**: A process in the "Ready" state is prepared to execute but is currently waiting for the CPU to be assigned. In a multitasking environment, multiple processes can reside in this state, and the operating system's scheduler is responsible for determining which ready process will get the CPU next.
 
-![Process State Transition Diagram](1.4.2.png)
+![Process State Transition Diagram](1.2.png)
 
 ### Other Important Process States
 
@@ -182,4 +182,4 @@ The PCB is critical for the OS to perform various operations, especially **conte
 - **Accounting Information**: Data like the amount of CPU time consumed, real time used, time limits, and job or process numbers
 - **I/O Status Information**: A list of I/O devices allocated to the process, a list of open files, and any pending I/O requests
 
-![Process Control Block (PCB)](1.2.png)
+![Process Control Block (PCB)](1.4.2.png)
