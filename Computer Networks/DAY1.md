@@ -1,12 +1,6 @@
 # Computer Networks: 3.1 Networking Basics
 
 Computer networking forms the backbone of modern computing, enabling devices to communicate and share resources. To begin, let's explore some fundamental concepts, network models, topologies, and common network devices.
-<<<<<<< HEAD
-- **Description**: Each device is **connected to a central hub or switch**. All communication flows through this central point.
-- **Advantages**: Centralized control, easy to add or remove devices, **fault isolation** (failure in one connection doesn't affect others).
-- **Disadvantages**: Dependency on the central hub; if it fails, the entire network may be affected.ces. To begin, let's explore some fundamental concepts, network models, topologies, and common network devices.
-=======
->>>>>>> 82f7f42a44093a998173afd0d3dbf9b080b1bd8b
 
 ## 3.1.1 Important Definitions
 
@@ -77,6 +71,9 @@ The **OSI (Open Systems Interconnection) model** and the **TCP/IP model** are bo
 | **Development**     | Developed by ISO                                                 | Evolved from ARPANET and Internet development |
 | **Specificity**     | More detailed and comprehensive                                  | **More practical and widely used**           |
 | **Standardization** | International standard (ISO/IEC)                                 | **De facto standard for the Internet**       |
+
+![3.1.2.1 OSI Model vs. TCP/IP Model Comparison](OSI-TCP.png)
+
 
 ### 3.1.2.2 OSI Model: Layer-Wise Functioning
 
