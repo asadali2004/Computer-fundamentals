@@ -1,9 +1,6 @@
 # Computer Networks: 3.1 Networking Basics
 
-Computer networking forms the backbone of modern computing, enabling devices to communicate and share re### 2. Star Topology
-- **Description**: Each device is **connected to a central hub or switch**. All communication flows through this central point.
-- **Advantages**: Centralized control, easy to add or remove devices, **fault isolation** (failure in one connection doesn't affect others).
-- **Disadvantages**: Dependency on the central hub; if it fails, the entire network may be affected.ces. To begin, let's explore some fundamental concepts, network models, topologies, and common network devices.
+Computer networking forms the backbone of modern computing, enabling devices to communicate and share resources. To begin, let's explore some fundamental concepts, network models, topologies, and common network devices.
 
 ## 3.1.1 Important Definitions
 
@@ -151,10 +148,10 @@ Network topology describes the **arrangement or physical layout of devices, node
 - **Description**: All devices share a **common communication medium (a single cable called a "bus")**. Data is transmitted to all devices, but only the intended recipient processes it.
 - **Advantages**: Simple and easy to implement, cost-effective for small networks.
 - **Disadvantages**: Limited scalability; performance degrades with more devices.
-*   **2. Star Topology**:
-    *   **Description**: Each device is **connected to a central hub or switch**. All communication flows through this central point.
-    *   **Advantages**: Centralized control, easy to add or remove devices, **fault isolation** (failure in one connection doesn’t affect others).
-    *   **Disadvantages**: Dependency on the central hub; if it fails, the entire network may be affected.
+### 2. Star Topology
+- **Description**: Each device is **connected to a central hub or switch**. All communication flows through this central point.
+- **Advantages**: Centralized control, easy to add or remove devices, **fault isolation** (failure in one connection doesn't affect others).
+- **Disadvantages**: Dependency on the central hub; if it fails, the entire network may be affected
 ### 3. Ring Topology
 - **Description**: Devices are connected in a **closed loop**, with each device connected to exactly two others. Data circulates around the ring until it reaches the recipient.
 - **Advantages**: Simple and easy to install, no central hub needed.
