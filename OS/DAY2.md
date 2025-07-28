@@ -95,18 +95,7 @@ Think of it as the different phases your baking task might go through!
 
 ### 📊 Process State Transition Diagram
 
-```
-[New] ——(Admission)——> [Ready] ——(Dispatch)——> [Running]
-                         ↑                        ↓
-                         |                   (Event Wait)
-                         |                        ↓
-                    (Event Completion)      [Waiting/Blocked]
-                         |                        ↑
-                         └————————————————————————┘
-                         
-[Running] ——(Preemption)——> [Ready]
-[Running] ——(Completion)——> [Termination]
-```
+![Process State Transition Diagram](PSTD.png)
 
 ---
 
