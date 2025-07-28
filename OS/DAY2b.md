@@ -1,4 +1,4 @@
-# 💻 Operating Systems - DAY 2 Learning Notes
+# 💻 Operating Systems - DAY 2b Learning Notes
 
 ## 🔄 Understanding a Process: Your OS's To-Do List Item
 
