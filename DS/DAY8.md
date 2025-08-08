@@ -1,930 +1,531 @@
 
-
-# ✅ Today’s Topic (8): **Trees — Complete Mastery in Java (Theory Phase)**
-
----
-
-## 📌 What You’ll Learn in This Session
-
-1. 🌱 What is a Tree?
-2. 🌲 Tree Terminologies (Node, Root, Leaf, Height, Depth, etc.)
-3. 🌳 Types of Trees: Binary Tree vs BST
-4. 🔁 Tree Traversals: Inorder, Preorder, Postorder, Level Order
-5. ⚙️ Binary Search Tree (BST) Operations
-6. 🧠 Real-world Applications
-7. ✅ Java-Based Implementation Examples
-8. 🎯 Interview Insights
+# 📘 HASH TABLES / HASH MAPS — From Basics to Advanced Mastery (Java + DSA Theory)
 
 ---
 
-## 🌱 1. What is a Tree?
-
-A **Tree** is a **non-linear hierarchical data structure** made up of nodes connected by edges.
-
-### ✅ Real-life Analogy:
-
-Think of a **family tree**:
-
-* Grandparent (root)
-* Children (nodes)
-* Further descendants (branches/leaves)
+## 🔰 PART 1: WHAT IS A HASH TABLE?
 
 ---
 
-### Visual Example:
+### ✅ Definition:
+
+A **Hash Table** is a **data structure** that stores data in **key-value pairs** and allows for **fast lookup**, **insertion**, and **deletion**, ideally in **O(1)** time.
+
+---
+
+### ✅ Real-Life Analogy:
+
+Imagine a **library catalog** where:
+
+* The **key** = book title
+* The **value** = location on the shelf
+
+You enter the title, and it gives you the book’s exact spot — instantly.
+
+---
+
+### ✅ Visual Structure:
 
 ```
-        10
-       /  \
-     20    30
-    /        \
-  40          50
+Index:   0     1     2     3     4     5
+         ↓     ↓     ↓     ↓     ↓     ↓
+        null  (K1,V1) null (K2,V2)(K3,V3) null
 ```
+
+Keys are placed at **hashed indexes** inside an internal array.
 
 ---
 
-## 📚 Part 2: Tree Terminology Masterclass
+## 🔐 Part 2: The Heart of Hash Tables — Hash Functions
 
-### 🏗️ Essential Tree Components
+### 🔧 What is a Hash Function?
 
-| **Term** | **Definition** | **Visual Example** | **Analogy** |
-|----------|---------------|-------------------|-------------|
-| 🌟 **Node** | Basic element containing data + links | `[10]` | Individual person in family tree |
-| 🎯 **Root** | Topmost node (only one per tree) | Node 1 in diagram | Family patriarch/matriarch |
-| 👨‍👩‍👧 **Parent** | Node with children | Node 2 has children 4,5 | Parent in family |
-| 👶 **Child** | Node with a parent | Nodes 4,5 are children of 2 | Offspring in family |
-| 🍃 **Leaf** | Node with no children | Nodes 4,5,6 | Youngest generation |
-| 🔗 **Edge** | Connection between two nodes | Lines in diagram | Family relationship |
-| 📏 **Level** | Distance from root (root = level 0) | 0,1,2... | Generation number |
-| 📐 **Height** | Longest path from node to leaf | Max depth | Family tree depth |
-| 🏠 **Depth** | Distance from root to specific node | Path length | Generational distance |
-| 🌿 **Subtree** | Tree formed from any node as root | Any node + descendants | Family branch |
-
-### � Annotated Tree Diagram
-
-```
-           1 ← Root (Level 0, Height 2)
-         /   \
-        2     3 ← Internal Nodes (Level 1, Height 1)
-       / \     \
-      4   5     6 ← Leaf Nodes (Level 2, Height 0)
-      
-🔍 Analysis:
-- Total Nodes: 6
-- Total Edges: 5 (always n-1 for n nodes)
-- Tree Height: 2 (longest path from root to leaf)
-- Leaf Count: 3 (nodes 4, 5, 6)
-```
-
-### 📊 Tree Properties
-
-| **Property** | **Formula/Rule** | **Example Value** |
-|--------------|------------------|-------------------|
-| **Edge Count** | n - 1 (for n nodes) | 5 edges for 6 nodes |
-| **Maximum Leaves** | 2^(height) for binary tree | 4 at height 2 |
-| **Minimum Height** | log₂(n) for balanced tree | 2 for 6 nodes |
-| **Maximum Height** | n - 1 for skewed tree | 5 for 6 nodes |
-
----
-
-## 🌲 Part 3: Types of Trees
-
-### 🌳 Tree Classification Overview
-
-| **Tree Type** | **Structure** | **Key Property** | **Use Case** |
-|---------------|---------------|------------------|--------------|
-| 🌿 **General Tree** | N-ary (any number of children) | Flexible branching | File systems, org charts |
-| 🌲 **Binary Tree** | Max 2 children per node | Left + Right children | Expression trees, heaps |
-| 🎯 **Binary Search Tree** | Ordered binary tree | Left < Root < Right | Searching, sorting |
-
----
-
-### 🌿 General Tree
-
-**🎯 Characteristics**:
-- A node can have **any number of children**
-- No restrictions on ordering
-- Flexible structure for hierarchical data
-
-```
-        CEO
-      /  |  \  \
-   VP1  VP2  VP3  VP4
-  / \    |    |   / | \
-Dir1 Dir2 Dir3 Dir4 M1 M2 M3
-```
-
----
-
-### 🌲 Binary Tree (BT)
-
-**🎯 Characteristics**:
-- Each node has **at most 2 children** (left and right)
-- No ordering requirements
-- Foundation for many specialized trees
+A **hash function** converts a key (e.g., string, int) into an **index** in the internal array.
 
 ```java
-// Binary Tree Node Structure
-class Node {
-    int data;
-    Node left, right;
-    
-    Node(int value) {
-        data = value;
-        left = right = null;
+index = hash(key) % table_size;
+```
+
+### 🎯 Properties of a Good Hash Function
+
+| **Property** | **Description** | **Why Important** |
+|--------------|-----------------|-------------------|
+| 🎲 **Deterministic** | Same input → same output | Consistency in storage/retrieval |
+| 📊 **Uniform Distribution** | Spread keys evenly across array | Minimize collisions |
+| ⚡ **Fast Computation** | Quick to calculate | Maintain O(1) performance |
+| 🎯 **Minimize Collisions** | Different keys → different indices | Avoid performance degradation |
+
+### 🧮 Hash Function Example
+
+```java
+// Simple hash function example
+public int hash(String key) {
+    int hash = 0;
+    for (int i = 0; i < key.length(); i++) {
+        hash = (hash * 31 + key.charAt(i)) % tableSize;
     }
-}
-```
-
-#### 📊 Binary Tree Types
-
-| **Type** | **Property** | **Example** |
-|----------|--------------|-------------|
-| **Full Binary Tree** | Every node has 0 or 2 children | Complete internal nodes |
-| **Complete Binary Tree** | All levels filled except possibly last | Heap structure |
-| **Perfect Binary Tree** | All levels completely filled | 2^h - 1 nodes |
-| **Balanced Binary Tree** | Height difference ≤ 1 for all nodes | AVL, Red-Black trees |
-
----
-
-### 🎯 Binary Search Tree (BST)
-
-**🎯 The Golden Rule**: For every node:
-- **Left subtree** < **Current node** < **Right subtree**
-- This property applies **recursively** to all subtrees
-
-```java
-        50 ← Root
-       /  \
-     30    70 ← 30 < 50 < 70
-    / \    / \
-  20 40  60  80 ← All follow BST property
-```
-
-#### ✅ BST Properties Table
-
-| **Property** | **Benefit** | **Complexity** |
-|--------------|-------------|----------------|
-| **Ordered Structure** | Enables efficient search | O(log n) average |
-| **Inorder Traversal** | Gives sorted sequence | O(n) |
-| **Dynamic Size** | Insert/delete as needed | O(log n) average |
-| **Range Queries** | Find values in range | O(log n + k) |
-
-#### 🚨 BST vs Regular Binary Tree
-
-| **Aspect** | **Binary Tree** | **Binary Search Tree** |
-|------------|-----------------|------------------------|
-| **Ordering** | No specific order | Left < Root < Right |
-| **Search Time** | O(n) - must check all | O(log n) - binary search |
-| **Insertion** | Any position | Must maintain order |
-| **Use Case** | Expression parsing | Searching, sorting |
-
----
-
-## � Part 4: Tree Traversals (Navigation Patterns)
-
-> **🎯 Core Concept**: Traversal means **visiting each node** in a specific, systematic order.
-
-### 📊 Traversal Methods Overview
-
-| **Traversal** | **Order** | **Primary Use** | **Time Complexity** |
-|---------------|-----------|-----------------|-------------------|
-| 📖 **Inorder** | Left → Root → Right | **Sorted output** (BST) | O(n) |
-| 📑 **Preorder** | Root → Left → Right | **Tree reconstruction** | O(n) |
-| 📄 **Postorder** | Left → Right → Root | **Tree deletion** | O(n) |
-| 📋 **Level Order** | Level by level | **BFS traversal** | O(n) |
-
----
-
-### 📖 1. Inorder Traversal (Left → Root → Right)
-
-**🎯 Special Property**: For BST, gives **sorted output**!
-
-```java
-void inorder(Node root) {
-    if (root == null) return;
-    inorder(root.left);          // Visit left subtree
-    System.out.print(root.data + " "); // Process current node
-    inorder(root.right);         // Visit right subtree
-}
-```
-
-#### 🔍 Example Walkthrough:
-```
-Tree:    50
-        /  \
-      30    70
-     / \    / \
-   20  40  60  80
-
-Inorder: 20 → 30 → 40 → 50 → 60 → 70 → 80 (Sorted!)
-```
-
----
-
-### 📑 2. Preorder Traversal (Root → Left → Right)
-
-**🎯 Special Property**: Can **recreate the original tree** from this sequence!
-
-```java
-void preorder(Node root) {
-    if (root == null) return;
-    System.out.print(root.data + " "); // Process current node first
-    preorder(root.left);          // Visit left subtree
-    preorder(root.right);         // Visit right subtree
-}
-```
-
-#### 🔍 Example Walkthrough:
-```
-Tree:    50
-        /  \
-      30    70
-     / \    / \
-   20  40  60  80
-
-Preorder: 50 → 30 → 20 → 40 → 70 → 60 → 80
-```
-
----
-
-### 📄 3. Postorder Traversal (Left → Right → Root)
-
-**🎯 Special Property**: Safe **tree deletion** order (children before parents)!
-
-```java
-void postorder(Node root) {
-    if (root == null) return;
-    postorder(root.left);         // Visit left subtree
-    postorder(root.right);        // Visit right subtree
-    System.out.print(root.data + " "); // Process current node last
-}
-```
-
-#### 🔍 Example Walkthrough:
-```
-Tree:    50
-        /  \
-      30    70
-     / \    / \
-   20  40  60  80
-
-Postorder: 20 → 40 → 30 → 60 → 80 → 70 → 50
-```
-
----
-
-### 📋 4. Level Order Traversal (Breadth-First Search)
-
-**🎯 Special Property**: Visits nodes **level by level** using a **Queue**!
-
-```java
-void levelOrder(Node root) {
-    if (root == null) return;
-    
-    Queue<Node> queue = new LinkedList<>();
-    queue.add(root);
-    
-    while (!queue.isEmpty()) {
-        Node current = queue.poll();
-        System.out.print(current.data + " ");
-        
-        // Add children to queue
-        if (current.left != null) queue.add(current.left);
-        if (current.right != null) queue.add(current.right);
-    }
-}
-```
-
-#### 🔍 Example Walkthrough:
-```
-Tree:    50      ← Level 0
-        /  \
-      30    70   ← Level 1
-     / \    / \
-   20  40  60  80 ← Level 2
-
-Level Order: 50 → 30 → 70 → 20 → 40 → 60 → 80
-```
-
-### 🎯 Traversal Comparison Summary
-
-| **Scenario** | **Best Traversal** | **Why** |
-|--------------|-------------------|---------|
-| Get sorted data from BST | **Inorder** | Natural ordering property |
-| Copy/serialize tree | **Preorder** | Root-first for reconstruction |
-| Delete tree safely | **Postorder** | Children before parents |
-| Print by levels | **Level Order** | Breadth-first exploration |
-
----
-
-## ⚙️ Part 5: Binary Search Tree (BST) Operations
-
-### 🎯 BST Operations Overview
-
-| **Operation** | **Average Time** | **Worst Case** | **Best Case** | **Space** |
-|---------------|------------------|----------------|---------------|-----------|
-| **🔍 Search** | O(log n) | O(n) | O(1) | O(1) |
-| **➕ Insert** | O(log n) | O(n) | O(1) | O(1) |
-| **❌ Delete** | O(log n) | O(n) | O(1) | O(1) |
-
----
-
-### 🔍 1. Search Operation in BST
-
-**🎯 Strategy**: Use BST property to eliminate half the tree at each step!
-
-```java
-boolean search(Node root, int key) {
-    // Base case: empty tree or found
-    if (root == null) return false;
-    if (root.data == key) return true;
-    
-    // Use BST property to choose direction
-    if (key < root.data) 
-        return search(root.left, key);  // Go left
-    else 
-        return search(root.right, key); // Go right
-}
-```
-
-#### 🔍 Search Example:
-```
-Search for 40 in:    50
-                    /  \
-                  30    70
-                 / \    / \
-               20  40  60  80
-
-Path: 50 → 30 → 40 ✅ (Found in 3 steps!)
-```
-
----
-
-### ➕ 2. Insert Operation in BST
-
-**🎯 Strategy**: Find the correct position and attach as leaf node!
-
-```java
-Node insert(Node root, int val) {
-    // Base case: create new node
-    if (root == null) 
-        return new Node(val);
-    
-    // Choose direction based on BST property
-    if (val < root.data) 
-        root.left = insert(root.left, val);
-    else if (val > root.data)
-        root.right = insert(root.right, val);
-    // Note: we ignore duplicates (val == root.data)
-    
-    return root;
-}
-```
-
-#### ➕ Insert Example:
-```
-Insert 25 into:      50
-                    /  \
-                  30    70
-                 / \    / \
-               20  40  60  80
-
-Result:             50
-                   /  \
-                 30    70
-                / \    / \
-              20  40  60  80
-             /
-           25 ← New node inserted here!
-```
-
----
-
-### ❌ 3. Delete Operation in BST (The Tricky One!)
-
-**🎯 Three Cases to Handle**:
-
-| **Case** | **Scenario** | **Action** |
-|----------|--------------|------------|
-| **Case 1** | Node has **no children** (leaf) | Simply delete it |
-| **Case 2** | Node has **one child** | Replace node with its child |
-| **Case 3** | Node has **two children** | Replace with inorder successor |
-
-```java
-Node delete(Node root, int key) {
-    if (root == null) return null;
-    
-    // Find the node to delete
-    if (key < root.data) 
-        root.left = delete(root.left, key);
-    else if (key > root.data) 
-        root.right = delete(root.right, key);
-    else { // Found the node to delete
-        
-        // Case 1 & 2: Node with 0 or 1 child
-        if (root.left == null) 
-            return root.right;
-        else if (root.right == null) 
-            return root.left;
-        
-        // Case 3: Node with 2 children
-        // Find inorder successor (smallest in right subtree)
-        root.data = minValue(root.right);
-        
-        // Delete the inorder successor
-        root.right = delete(root.right, root.data);
-    }
-    return root;
+    return hash;
 }
 
-// Helper method to find minimum value
-int minValue(Node root) {
-    while (root.left != null) 
-        root = root.left;
-    return root.data;
-}
-```
-
-#### ❌ Delete Examples:
-
-**Case 1** - Delete leaf (20):
-```
-Before:    50          After:     50
-          /  \                   /  \
-        30    70               30    70
-       / \    / \               \    / \
-     20  40  60  80             40  60  80
-```
-
-**Case 2** - Delete node with one child (30):
-```
-Before:    50          After:     50
-          /  \                   /  \
-        30    70               40    70
-         \    / \                   / \
-         40  60  80               60  80
-```
-
-**Case 3** - Delete node with two children (50):
-```
-Before:    50          After:     60 ← (successor of 50)
-          /  \                   /  \
-        30    70               30    70
-       / \    / \             / \     \
-     20  40  60  80         20  40    80
+// Example usage:
+hash("Apple") = 40123
+index = 40123 % 10 = 3  // Maps to index 3
 ```
 
 ---
 
-## 🌍 Part 6: Real-World Applications of Trees
-
-### 🎯 Where Trees Dominate in Technology
-
-| **Domain** | **Application** | **Why Trees?** | **Example** |
-|------------|-----------------|----------------|-------------|
-| 💾 **File Systems** | Hierarchical storage organization | Natural directory structure | Windows Explorer, Unix filesystem |
-| 🌐 **Web Development** | HTML/XML DOM manipulation | Nested element representation | Browser rendering, XML parsing |
-| 🗃️ **Databases** | B-Trees, B+ Trees for indexing | Efficient range queries | MySQL indexes, PostgreSQL |
-| 🛣️ **Networking** | Routing algorithms | Decision trees for path finding | Internet routing protocols |
-| 📝 **Compilers** | Parse trees, syntax trees | Expression parsing | Programming language compilers |
-| 🤖 **Artificial Intelligence** | Decision trees, game trees | Minimax algorithm | Chess engines, machine learning |
-| 🔍 **Search Engines** | Trie trees for autocomplete | Prefix-based searching | Google search suggestions |
-| 📊 **Data Compression** | Huffman coding trees | Optimal character encoding | ZIP files, image compression |
-
-### 💻 Detailed Application Examples
-
-#### 📁 File System Implementation
-```java
-class FileNode {
-    String name;
-    boolean isDirectory;
-    List<FileNode> children;
-    
-    // Tree structure represents folder hierarchy
-    // Root: C:\ → Users → Documents → file.txt
-}
-```
-
-#### 🌐 HTML DOM Tree
-```html
-<!-- HTML structure becomes tree -->
-<html>           ← Root
-  <head>         ← Child of html
-    <title>      ← Child of head
-  <body>         ← Child of html
-    <div>        ← Child of body
-      <p>        ← Child of div
-```
-
-#### 🔍 Expression Parsing
-```java
-// Mathematical expression: (3 + 5) * 2
-//        *
-//       / \
-//      +   2
-//     / \
-//    3   5
-
-// Tree evaluation: bottom-up (postorder)
-```
-
-#### 🤖 AI Decision Trees
-```
-Customer Age > 30?
-    ├─ YES → Income > 50k?
-    │        ├─ YES → Approve Loan ✅
-    │        └─ NO  → Reject Loan ❌
-    └─ NO  → Credit Score > 700?
-             ├─ YES → Approve Loan ✅
-             └─ NO  → Reject Loan ❌
-```
-
-### 📈 Performance Benefits
-
-| **Use Case** | **Without Trees** | **With Trees** | **Improvement** |
-|--------------|-------------------|----------------|-----------------|
-| **File Search** | O(n) linear scan | O(log n) tree traversal | Exponential speedup |
-| **Database Query** | O(n) table scan | O(log n) index lookup | Massive performance gain |
-| **Autocomplete** | O(n) string matching | O(m) trie traversal | Constant time completion |
-| **Expression Eval** | Complex parsing | O(n) tree traversal | Clean, maintainable code |
+## ⚠️ PART 3: COLLISIONS AND RESOLUTION
 
 ---
 
-## 💻 Part 7: Complete Java Implementation
+### ✅ What is a Collision?
 
-### 🏗️ Node Class Structure
+When two different keys produce the **same index**, it’s called a **collision**.
 
-```java
-class Node {
-    int data;
-    Node left, right;
-    
-    // Constructor
-    Node(int value) {
-        data = value;
-        left = right = null;
-    }
-}
+E.g.,
+`hash("cat") % 5 → 2`
+`hash("dog") % 5 → 2`
+Both map to index 2
+
+---
+
+### ✅ Collision Resolution Techniques:
+
+---
+
+#### 🔹 1. **Chaining (Used in Java HashMap)**
+
+* Use a **linked list (or array list)** at each index
+* All values with same hash are stored in a list
+
+```plaintext
+Index 3: → (Key1, Val1) → (Key2, Val2)
 ```
 
-### 🌳 Complete BST Class with All Operations
+✅ Easy to implement
+❌ Search becomes O(n) if too many collisions
+
+---
+
+#### 🔹 2. **Open Addressing**
+
+* All elements stored in the main array
+* On collision, search for the next empty slot
+
+##### Types:
+
+* **Linear Probing**: Next index → (i + 1) % size
+* **Quadratic Probing**: (i + 1²), (i + 2²), ...
+* **Double Hashing**: Use second hash function
+
+✅ Space-efficient
+❌ Clustering problem
+
+---
+
+## ⚙️ Part 4: Hash Table Operations
+
+### 🔧 Core Operations Overview
+
+| **Operation** | **Average Time** | **Worst Case** | **Description** |
+|---------------|------------------|----------------|-----------------|
+| **Insert** | O(1) | O(n) | Add key-value pair |
+| **Search** | O(1) | O(n) | Find value by key |
+| **Delete** | O(1) | O(n) | Remove key-value pair |
+
+### 1️⃣ Insert Operation
 
 ```java
-public class BinarySearchTree {
-    Node root;
+// Insert algorithm
+1. hash = hash(key) % capacity
+2. if (table[hash] is empty):
+       table[hash] = new Entry(key, value)
+   else:
+       // Handle collision (chaining or probing)
+       resolve_collision(hash, key, value)
+```
+
+**⏱️ Time Complexity**: 
+- **Average**: O(1) - Direct placement
+- **Worst**: O(n) - All keys hash to same index
+
+### 2️⃣ Search Operation
+
+```java
+// Search algorithm
+1. hash = hash(key) % capacity
+2. if (table[hash].key == target_key):
+       return table[hash].value
+   else:
+       // Follow collision resolution method
+       return search_in_collision_chain(hash, target_key)
+```
+
+**🔍 Process**:
+1. Compute hash of the key
+2. Go to calculated index
+3. If chaining: traverse linked list
+4. If open addressing: probe sequence
+
+### 3️⃣ Delete Operation
+
+**📋 Strategy varies by collision resolution**:
+
+| **Resolution Method** | **Deletion Process** |
+|----------------------|---------------------|
+| **Chaining** | Remove from linked list at index |
+| **Open Addressing** | Mark as deleted (special marker/tombstone) |
+
+> **⚠️ Important**: In open addressing, actual deletion can break probe sequences, so we use "tombstone" markers.
+
+---
+
+## 🧮 Part 5: Load Factor & Rehashing
+
+### 📊 Understanding Load Factor (α)
+
+```
+α = number of elements / table size
+```
+
+**🎯 Example**: If we have 15 elements in a table of size 20:
+```
+Load Factor = 15/20 = 0.75 (75% full)
+```
+
+### 📈 Load Factor Impact
+
+| **Load Factor Range** | **Performance** | **Collision Rate** | **Action Needed** |
+|----------------------|-----------------|-------------------|-------------------|
+| **0.0 - 0.5** | 🟢 Excellent | Very Low | Optimal performance |
+| **0.5 - 0.75** | 🟡 Good | Moderate | Monitor closely |
+| **0.75 - 1.0** | 🟠 Degrading | High | **Rehashing recommended** |
+| **> 1.0** | 🔴 Poor | Very High | **Immediate rehashing required** |
+
+### 🔄 Rehashing Process
+
+When load factor exceeds threshold (typically **0.75**):
+
+#### 📋 Rehashing Steps:
+1. **📏 Create new table**: Usually **double the size** (e.g., 16 → 32)
+2. **🔄 Recompute hashes**: All existing keys get new hash values
+3. **📦 Re-insert elements**: Transfer all key-value pairs to new table
+4. **🗑️ Discard old table**: Free up old array memory
+
+```java
+// Simplified rehashing pseudocode
+if (loadFactor > 0.75) {
+    oldTable = currentTable;
+    currentTable = new Table(oldTable.size * 2);
     
-    // Constructor
-    public BinarySearchTree() {
-        root = null;
-    }
-    
-    // ➕ Insert operation
-    public void insert(int val) {
-        root = insertRec(root, val);
-    }
-    
-    private Node insertRec(Node root, int val) {
-        if (root == null) {
-            root = new Node(val);
-            return root;
-        }
-        
-        if (val < root.data)
-            root.left = insertRec(root.left, val);
-        else if (val > root.data)
-            root.right = insertRec(root.right, val);
-        
-        return root;
-    }
-    
-    // 🔍 Search operation
-    public boolean search(int key) {
-        return searchRec(root, key);
-    }
-    
-    private boolean searchRec(Node root, int key) {
-        if (root == null) return false;
-        if (root.data == key) return true;
-        
-        return key < root.data ? 
-            searchRec(root.left, key) : 
-            searchRec(root.right, key);
-    }
-    
-    // ❌ Delete operation
-    public void delete(int key) {
-        root = deleteRec(root, key);
-    }
-    
-    private Node deleteRec(Node root, int key) {
-        if (root == null) return root;
-        
-        if (key < root.data)
-            root.left = deleteRec(root.left, key);
-        else if (key > root.data)
-            root.right = deleteRec(root.right, key);
-        else {
-            // Node to be deleted found
-            if (root.left == null)
-                return root.right;
-            else if (root.right == null)
-                return root.left;
-            
-            // Node with two children
-            root.data = minValue(root.right);
-            root.right = deleteRec(root.right, root.data);
-        }
-        
-        return root;
-    }
-    
-    // Helper: find minimum value in subtree
-    private int minValue(Node root) {
-        int minVal = root.data;
-        while (root.left != null) {
-            minVal = root.left.data;
-            root = root.left;
-        }
-        return minVal;
-    }
-    
-    // 📖 Inorder traversal
-    public void inorder() {
-        inorderRec(root);
-        System.out.println();
-    }
-    
-    private void inorderRec(Node root) {
-        if (root != null) {
-            inorderRec(root.left);
-            System.out.print(root.data + " ");
-            inorderRec(root.right);
+    for (entry : oldTable) {
+        if (entry != null) {
+            newHash = hash(entry.key) % currentTable.size;
+            insert(currentTable, newHash, entry);
         }
     }
-    
-    // 📑 Preorder traversal
-    public void preorder() {
-        preorderRec(root);
-        System.out.println();
-    }
-    
-    private void preorderRec(Node root) {
-        if (root != null) {
-            System.out.print(root.data + " ");
-            preorderRec(root.left);
-            preorderRec(root.right);
-        }
-    }
-    
-    // 📄 Postorder traversal
-    public void postorder() {
-        postorderRec(root);
-        System.out.println();
-    }
-    
-    private void postorderRec(Node root) {
-        if (root != null) {
-            postorderRec(root.left);
-            postorderRec(root.right);
-            System.out.print(root.data + " ");
-        }
-    }
-    
-    // 📋 Level order traversal
-    public void levelOrder() {
-        if (root == null) return;
-        
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(root);
-        
-        while (!queue.isEmpty()) {
-            Node current = queue.poll();
-            System.out.print(current.data + " ");
-            
-            if (current.left != null) queue.add(current.left);
-            if (current.right != null) queue.add(current.right);
-        }
-        System.out.println();
-    }
-    
-    // 🔧 Utility: Get tree height
-    public int height() {
-        return heightRec(root);
-    }
-    
-    private int heightRec(Node root) {
-        if (root == null) return -1;
-        return 1 + Math.max(heightRec(root.left), heightRec(root.right));
-    }
-    
-    // 📊 Utility: Count total nodes
-    public int countNodes() {
-        return countNodesRec(root);
-    }
-    
-    private int countNodesRec(Node root) {
-        if (root == null) return 0;
-        return 1 + countNodesRec(root.left) + countNodesRec(root.right);
-    }
 }
 ```
 
-### 🧪 Demo Usage
+### ⏱️ Rehashing Cost Analysis
+
+| **Aspect** | **Cost** | **Amortization** |
+|------------|----------|------------------|
+| **Individual rehashing** | O(n) - expensive | Rare occurrence |
+| **Average over many operations** | O(1) | Amortized constant time |
+
+> **💡 Key Insight**: Though rehashing is costly (O(n)), it happens infrequently, making the **amortized** cost O(1) per operation.
+
+---
+
+## ☕ Part 6: Hash Tables in Java (HashMap)
+
+### 🚀 HashMap Declaration & Basic Operations
 
 ```java
-public class TreeDemo {
-    public static void main(String[] args) {
-        BinarySearchTree bst = new BinarySearchTree();
-        
-        // Insert elements
-        int[] values = {50, 30, 70, 20, 40, 60, 80};
-        System.out.println("🌱 Building BST...");
-        for (int val : values) {
-            bst.insert(val);
-            System.out.println("Inserted: " + val);
+// Creating and using HashMap
+Map<String, Integer> map = new HashMap<>();
+
+// Basic operations
+map.put("apple", 2);           // Insert
+map.get("apple");              // Returns 2 (Search)
+map.remove("apple");           // Delete
+map.containsKey("apple");      // Returns false
+map.containsValue(2);          // Check if value exists
+map.size();                    // Get number of elements
+map.isEmpty();                 // Check if empty
+```
+
+### 🏗️ HashMap Internal Architecture
+
+#### 📋 Behind the Scenes:
+
+| **Java Version** | **Internal Structure** | **Collision Handling** |
+|------------------|------------------------|------------------------|
+| **Java 7 & earlier** | Array of `Entry<K,V>` | LinkedList at each bucket |
+| **Java 8+** | Array of `Node<K,V>` | LinkedList → **Balanced BST** (when chain > 8) |
+
+```java
+// Simplified internal structure
+class HashMap<K,V> {
+    Node<K,V>[] table;        // Main array
+    int size;                 // Number of elements
+    int threshold;            // Rehashing trigger
+    float loadFactor = 0.75f; // Default load factor
+}
+```
+
+### 🎯 Important HashMap Behaviors
+
+| **Behavior** | **Details** | **Example/Note** |
+|--------------|-------------|------------------|
+| **Null Keys & Values** | ✅ Allows 1 null key, multiple null values | `map.put(null, "value")` |
+| **Thread Safety** | ❌ Not thread-safe | Use `ConcurrentHashMap` for concurrency |
+| **Ordering** | ❌ No insertion order maintained | Use `LinkedHashMap` for order |
+| **Sorted Keys** | ❌ No natural sorting | Use `TreeMap` for sorted keys |
+| **Initial Capacity** | Default: 16 | Can specify: `new HashMap<>(32)` |
+| **Load Factor** | Default: 0.75 | Can customize: `new HashMap<>(16, 0.8f)` |
+
+### 🔧 HashMap Performance Optimizations (Java 8+)
+
+#### 🌳 Tree-ification Process:
+```
+LinkedList → Tree conversion happens when:
+1. Bucket chain length > 8 (TREEIFY_THRESHOLD)
+2. Total table size ≥ 64 (MIN_TREEIFY_CAPACITY)
+
+Tree → LinkedList conversion when:
+- Chain length < 6 (UNTREEIFY_THRESHOLD)
+```
+
+**🎯 Result**: Even with poor hash functions, worst-case search becomes **O(log n)** instead of **O(n)**.
+
+---
+
+## 🧩 Part 7: Real-World Applications of Hash Tables
+
+### 🌍 Where Hash Tables Shine
+
+| **Application Area** | **Use Case** | **Example** | **Why Hash Tables?** |
+|---------------------|--------------|-------------|----------------------|
+| 🔍 **Lookup Tables** | Store information for fast access | Phone directory, DNS cache | O(1) lookup time |
+| 💾 **Caching** | Memoization, LRU cache implementation | Web browser cache, CPU cache | Fast data retrieval |
+| 📊 **Counting & Frequency** | Count occurrences, find duplicates | Word frequency, vote counting | Efficient counting operations |
+| 🕸️ **Graph Problems** | Adjacency list representation | `Map<Node, List<Node>>` | Dynamic graph structure |
+| 🔢 **Set Operations** | Union, intersection, difference | Database joins, data deduplication | Fast membership testing |
+| 🗃️ **Database Indexing** | Primary keys, foreign key lookups | SQL database indexes | Constant-time record access |
+| 📝 **Compiler Design** | Symbol tables, variable storage | Variable scope management | Quick symbol resolution |
+| 🌐 **JSON Parsing** | Key-value parsing of objects | API response parsing | Dynamic object handling |
+
+### 💡 Programming Interview Applications
+
+```java
+// Example: Two Sum Problem
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (map.containsKey(complement)) {
+            return new int[]{map.get(complement), i};
         }
-        
-        // Demonstrate traversals
-        System.out.println("\n🔄 Tree Traversals:");
-        System.out.print("📖 Inorder:   "); bst.inorder();    // 20 30 40 50 60 70 80
-        System.out.print("📑 Preorder:  "); bst.preorder();   // 50 30 20 40 70 60 80
-        System.out.print("📄 Postorder: "); bst.postorder();  // 20 40 30 60 80 70 50
-        System.out.print("📋 Level Order:"); bst.levelOrder(); // 50 30 70 20 40 60 80
-        
-        // Demonstrate search
-        System.out.println("\n🔍 Search Operations:");
-        System.out.println("Search 40: " + bst.search(40)); // true
-        System.out.println("Search 25: " + bst.search(25)); // false
-        
-        // Tree statistics
-        System.out.println("\n📊 Tree Statistics:");
-        System.out.println("Height: " + bst.height());        // 2
-        System.out.println("Total Nodes: " + bst.countNodes()); // 7
-        
-        // Demonstrate deletion
-        System.out.println("\n❌ Deletion Demo:");
-        bst.delete(20); // Delete leaf
-        System.out.print("After deleting 20: "); bst.inorder();
-        
-        bst.delete(30); // Delete node with two children
-        System.out.print("After deleting 30: "); bst.inorder();
-        
-        bst.delete(50); // Delete root
-        System.out.print("After deleting 50: "); bst.inorder();
+        map.put(nums[i], i);
     }
+    return new int[]{};
 }
 ```
 
 ---
 
-## 🧠 Part 8: Interview Preparation & Advanced Topics
+## 📊 Part 8: Time & Space Complexity Analysis
 
-### 🎯 Common Tree Interview Questions
+### ⏱️ Time Complexity Breakdown
 
-| **Problem** | **Difficulty** | **Key Concept** | **Approach** |
-|-------------|----------------|-----------------|--------------|
-| **� Validate BST** | Medium | BST Property | Inorder or range validation |
-| **🌲 Tree Height** | Easy | Recursion | Max depth of left/right subtrees |
-| **🍃 Count Leaves** | Easy | Traversal | Count nodes with no children |
-| **🔄 Invert Binary Tree** | Easy | Recursion | Swap left and right subtrees |
-| **📊 Level Order Traversal** | Medium | BFS | Queue-based traversal |
-| **🎯 Lowest Common Ancestor** | Medium | Tree Navigation | Path-based or recursive approach |
-| **📏 Diameter of Tree** | Medium | Tree Properties | Longest path between any nodes |
-| **🔀 Serialize/Deserialize** | Hard | Tree Reconstruction | Preorder + null markers |
+| **Operation** | **Average Case** | **Worst Case** | **Best Case** | **Real-World Performance** |
+|---------------|------------------|----------------|---------------|---------------------------|
+| **🔍 Search** | **O(1)** | O(n) | O(1) | Usually O(1) with good hash function |
+| **➕ Insert** | **O(1)** | O(n) | O(1) | Usually O(1), O(n) during rehashing |
+| **❌ Delete** | **O(1)** | O(n) | O(1) | Usually O(1) with good hash function |
 
-### 💡 Interview Problem Patterns
+### 💾 Space Complexity
 
-#### 🔍 Pattern 1: Validation Problems
+| **Component** | **Space Usage** | **Description** |
+|---------------|-----------------|-----------------|
+| **Main Array** | O(m) | Where m = table capacity |
+| **Stored Elements** | O(n) | Where n = number of elements |
+| **Total Space** | **O(n + m)** | Usually m ≈ n/α, so **O(n)** |
+
+### 🎯 Why Worst Case Rarely Happens
+
+| **Protection Mechanism** | **How It Helps** | **Result** |
+|--------------------------|------------------|------------|
+| 🔧 **Good Hash Functions** | Uniform distribution of keys | Minimizes collisions |
+| 🔄 **Automatic Rehashing** | Maintains low load factor | Prevents overcrowding |
+| 🌳 **Tree Fallback (Java 8+)** | Converts long chains to balanced trees | O(log n) instead of O(n) |
+| 📊 **Load Factor Management** | Triggers expansion when needed | Maintains performance |
+
+### 📈 Performance Comparison
+
 ```java
-// Validate if binary tree is BST
-boolean isValidBST(Node root) {
-    return isValidBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+// Performance comparison of different data structures
+Operation     | Array | LinkedList | HashMap | TreeMap
+------------- | ----- | ---------- | ------- | -------
+Search        | O(n)  | O(n)       | O(1)*   | O(log n)
+Insert        | O(n)  | O(1)       | O(1)*   | O(log n)
+Delete        | O(n)  | O(n)       | O(1)*   | O(log n)
+Space         | O(n)  | O(n)       | O(n)    | O(n)
+
+* Average case performance
+```
+
+---
+
+## ⚠️ Part 9: Common Pitfalls & Best Practices
+
+### 🚨 Common Mistakes to Avoid
+
+| **Pitfall** | **Problem** | **Solution** | **Example** |
+|-------------|-------------|--------------|-------------|
+| 🔧 **Poor Hash Function** | Many collisions → O(n) performance | Use proven hash algorithms | Use built-in `hashCode()` or proven libraries |
+| 🔄 **Mutable Keys** | Changing key after insertion | Use immutable objects as keys | Use `String`, `Integer`, or custom immutable classes |
+| 🔍 **Null Handling** | `NullPointerException` in operations | Always check for null | `if (key != null) map.get(key)` |
+| ⚖️ **equals() & hashCode()** | Inconsistent object equality | Override both methods correctly | If `a.equals(b)`, then `a.hashCode() == b.hashCode()` |
+
+### 📋 Best Practices Checklist
+
+#### ✅ Hash Function Design
+```java
+// Good hashCode() implementation
+@Override
+public int hashCode() {
+    return Objects.hash(field1, field2, field3);
 }
 
-boolean isValidBST(Node node, int min, int max) {
-    if (node == null) return true;
-    
-    if (node.data <= min || node.data >= max) return false;
-    
-    return isValidBST(node.left, min, node.data) && 
-           isValidBST(node.right, node.data, max);
+// Or for custom implementation
+@Override
+public int hashCode() {
+    int result = 17;
+    result = 31 * result + field1.hashCode();
+    result = 31 * result + field2.hashCode();
+    return result;
 }
 ```
 
-#### 📊 Pattern 2: Tree Statistics
+#### ✅ Key Design Guidelines
+- **Use immutable objects** as keys (String, Integer, etc.)
+- **Override both `equals()` and `hashCode()`** for custom objects
+- **Ensure consistent hashing** across object lifecycle
+
+#### ✅ Performance Optimization
 ```java
-// Find maximum depth (height)
-int maxDepth(Node root) {
-    if (root == null) return 0;
-    return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
-}
+// Specify initial capacity if size is known
+Map<String, Integer> map = new HashMap<>(1000);
 
-// Count total nodes
-int countNodes(Node root) {
-    if (root == null) return 0;
-    return 1 + countNodes(root.left) + countNodes(root.right);
-}
-
-// Count leaf nodes
-int countLeaves(Node root) {
-    if (root == null) return 0;
-    if (root.left == null && root.right == null) return 1;
-    return countLeaves(root.left) + countLeaves(root.right);
-}
+// Use appropriate load factor for your use case
+Map<String, Integer> map = new HashMap<>(100, 0.6f);
 ```
 
-#### 🎯 Pattern 3: Path-Based Problems
+### 🛡️ Thread Safety Considerations
+
+| **Scenario** | **Recommended Solution** | **Performance** |
+|--------------|-------------------------|-----------------|
+| **Single-threaded** | `HashMap` | Best performance |
+| **Read-heavy multithreaded** | `Collections.synchronizedMap()` | Moderate overhead |
+| **Write-heavy multithreaded** | `ConcurrentHashMap` | Optimized for concurrency |
+
+---
+
+## 🧠 Part 10: Interview Questions & Problem Patterns
+
+### 🎯 Classic Hash Table Interview Problems
+
+| **Problem** | **Difficulty** | **Key Insight** | **Pattern** |
+|-------------|----------------|-----------------|-------------|
+| **🔢 Two Sum** | Easy | Use complement lookup | Hash for O(1) lookup |
+| **📝 Group Anagrams** | Medium | Group by sorted string | Hash as grouping key |
+| **💾 LRU Cache** | Medium | Combine HashMap + Doubly LinkedList | Fast access + ordering |
+| **🔤 First Non-Repeating Character** | Easy | Count frequencies | Frequency counting |
+| **🔄 Longest Substring Without Repeating** | Medium | Sliding window + character tracking | Window with hash tracking |
+| **🎯 Subarray Sum Equals K** | Medium | Prefix sum technique | Cumulative sum lookup |
+| **🔍 Contains Duplicate** | Easy | Check existence | Simple membership test |
+| **🏆 Top K Frequent Elements** | Medium | Frequency count + sorting | Count then rank |
+
+### 💡 Problem-Solving Patterns
+
+#### 🔑 Pattern 1: Fast Lookup & Existence Check
 ```java
-// Find path from root to target
-boolean findPath(Node root, int target, List<Integer> path) {
-    if (root == null) return false;
-    
-    path.add(root.data);
-    
-    if (root.data == target) return true;
-    
-    if (findPath(root.left, target, path) || 
-        findPath(root.right, target, path)) {
+// Template: Check if element exists
+Set<Integer> seen = new HashSet<>();
+for (int num : array) {
+    if (seen.contains(target - num)) {
+        // Found pair that sums to target
         return true;
     }
-    
-    path.remove(path.size() - 1); // Backtrack
-    return false;
+    seen.add(num);
 }
 ```
 
-### 📚 Advanced Tree Concepts
+#### 📊 Pattern 2: Frequency Counting
+```java
+// Template: Count frequencies
+Map<Character, Integer> freq = new HashMap<>();
+for (char c : string.toCharArray()) {
+    freq.put(c, freq.getOrDefault(c, 0) + 1);
+}
+```
 
-| **Topic** | **Description** | **Interview Frequency** |
-|-----------|-----------------|-------------------------|
-| **🔴 AVL Trees** | Self-balancing BST | Medium |
-| **⚫ Red-Black Trees** | Balanced BST with coloring | Low |
-| **🌿 Trie (Prefix Trees)** | String/prefix operations | High |
-| **🔥 Heap Trees** | Priority queue implementation | High |
-| **🌳 Segment Trees** | Range query optimization | Medium |
-| **🌲 Fenwick Trees** | Efficient prefix sums | Low |
+#### 🔄 Pattern 3: Grouping/Categorization
+```java
+// Template: Group by some property
+Map<String, List<String>> groups = new HashMap<>();
+for (String word : words) {
+    String key = computeKey(word); // e.g., sorted chars for anagrams
+    groups.computeIfAbsent(key, k -> new ArrayList<>()).add(word);
+}
+```
 
-### 🎯 Interview Tips & Best Practices
+### 🎪 Advanced Interview Topics
 
-#### ✅ DO's:
-- **Start with base cases** (null checks)
-- **Draw the tree** structure before coding
-- **Explain your approach** before implementing
-- **Consider edge cases** (empty tree, single node, skewed tree)
-- **Optimize space complexity** when possible
-
-#### ❌ DON'Ts:
-- Don't forget **null pointer checks**
-- Don't ignore **tree balance** considerations
-- Don't use **global variables** unnecessarily
-- Don't miss **return statements** in recursion
-- Don't forget to discuss **time/space complexity**
-
-### 🔧 Complexity Analysis Summary
-
-| **Operation** | **Balanced BST** | **Skewed BST** | **Note** |
-|---------------|------------------|----------------|----------|
-| **Search** | O(log n) | O(n) | Best vs worst case |
-| **Insert** | O(log n) | O(n) | Depends on tree shape |
-| **Delete** | O(log n) | O(n) | Complex with two children |
-| **Traversal** | O(n) | O(n) | Must visit all nodes |
-| **Space** | O(h) | O(n) | h = height for recursion |
+| **Topic** | **When It Comes Up** | **Key Points** |
+|-----------|----------------------|----------------|
+| **Custom Hash Functions** | System design questions | Distribution, collision handling |
+| **Consistent Hashing** | Distributed systems | Load balancing, minimal rehashing |
+| **Bloom Filters** | Space-efficient membership | Probabilistic, false positives |
+| **Hash Table Implementation** | Low-level design | Array, collision resolution, resizing |
 
 ---
 
 ## ✅ Final Mastery Checklist
 
-| **Concept** | **Understanding** | **Implementation** | **Interview Ready** |
-|-------------|------------------|-------------------|-------------------|
-| 🌱 **Tree Fundamentals** | ✅ | ✅ | ✅ |
-| 📚 **Tree Terminology** | ✅ | ✅ | ✅ |
-| 🌲 **Binary Tree vs BST** | ✅ | ✅ | ✅ |
-| 🔄 **All Tree Traversals** | ✅ | ✅ | ✅ |
-| ⚙️ **BST Operations** | ✅ | ✅ | ✅ |
-| 💻 **Java Implementation** | ✅ | ✅ | ✅ |
-| 🌍 **Real-World Applications** | ✅ | ✅ | ✅ |
-| 🧠 **Interview Problems** | ✅ | ✅ | ✅ |
+| **Concept** | **Understanding Level** | **Can Explain** | **Can Implement** |
+|-------------|------------------------|-----------------|-------------------|
+| 🏗️ **Key-value storage concept** | ✅ | ✅ | ✅ |
+| 🔧 **Hash functions & properties** | ✅ | ✅ | ✅ |
+| ⚠️ **Collision resolution methods** | ✅ | ✅ | ✅ |
+| ☕ **Java HashMap internals** | ✅ | ✅ | ✅ |
+| 📊 **Load factor & rehashing** | ✅ | ✅ | ✅ |
+| ⏱️ **Time & space complexity** | ✅ | ✅ | ✅ |
+| 🛡️ **Best practices & pitfalls** | ✅ | ✅ | ✅ |
+| 🌍 **Real-world applications** | ✅ | ✅ | ✅ |
+| 🧠 **Interview problem patterns** | ✅ | ✅ | ✅ |
 
 ---
 
 ## 🎯 Key Takeaways
 
-✅ **Trees**: Hierarchical data structures perfect for organized, searchable data
+✅ **Hash Tables**: Provide O(1) average-case performance for search, insert, and delete operations
 
-✅ **BST Property**: Left < Root < Right enables O(log n) operations in balanced trees
+✅ **Hash Functions**: Must be deterministic, fast, and provide uniform distribution to minimize collisions
 
-✅ **Traversals**: Each serves specific purposes - inorder for sorting, preorder for copying, postorder for deletion
+✅ **Collision Resolution**: Chaining (linked lists) vs Open Addressing (probing) each have trade-offs
 
-✅ **Operations**: Insert, search, and delete all leverage BST property for efficiency
+✅ **Load Factor**: Critical metric (typically 0.75) that triggers rehashing to maintain performance
 
-✅ **Real-World Impact**: File systems, databases, compilers, and AI systems all rely heavily on tree structures
+✅ **Java HashMap**: Evolved from simple chaining to hybrid approach with balanced trees for collision handling
 
-✅ **Interview Success**: Master the fundamental patterns - validation, statistics, and path-finding problems
+✅ **Real-World Usage**: Essential for caching, counting, grouping, and fast lookups in countless applications
 
-✅ **Implementation**: Recursive approaches are elegant and intuitive for tree operations
+✅ **Interview Success**: Master the core patterns - lookup, frequency counting, and grouping problems
 
 ---
 
-*Master Trees and unlock the power of hierarchical data organization!* 🌳🚀
-
+*Master Hash Tables and unlock the power of O(1) operations in your algorithms!* 🚀
