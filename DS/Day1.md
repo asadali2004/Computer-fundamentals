@@ -149,8 +149,8 @@ Below are the essential diagrams and charts for understanding Data Structures an
 ### 📈 Big O Complexity Chart
 ![Big O Notation](BigO.png)
 
-### ⏰ Time Complexity vs Data Complexity
-![Time and Data Complexity](TC_DC.png)
+### ⏰ Time Complexity of Common Data Structure
+![Time and Data Complexity](TC_DS.png)
 
 ### 🔄 Time Complexity of Sorting Algorithms
 ![Sorting Algorithms Time Complexity](TC_sorting.png)
